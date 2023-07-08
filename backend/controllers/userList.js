@@ -8,7 +8,8 @@
           return res.status(404).json({ message: 'User not found' });
         }
       
-        const { _id } = req.body;
+        const { bookId } = req.body;
+        const _id = bookId
       
         try {
           const book = await Book.findOne({ _id });
@@ -42,6 +43,7 @@
     try {
       const book = await FavList.findOneAndDelete({ userId: req.user._id });
 
+      
         res.status(200).json({ message: 'Books delete' });
     } catch (error) {
         console.error(error);
