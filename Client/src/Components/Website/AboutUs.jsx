@@ -37,8 +37,7 @@ const AboutUs = () => {
                                         To Do
                                     </h1>
                                     <p className="text-xl font-bold tracking-tight mb-12">
-                                        to-do list-app shows a list of tasks that need to be completed in a Fully responsive website. It's a simple and effective way to organize and prioritize your tasks, helping you stay focused and productive.
-                                        By creating a to-do list, you can better manage your time, track your progress, and ensure that important tasks are completed in a timely manner.
+                                    Bookworm Haven" is an online platform dedicated to all things books. It aims to create a vibrant and engaging community for book lovers, providing a wide range of features and resources to enhance the reading experience.
                                     </p>
                                 </div>
                             </div>

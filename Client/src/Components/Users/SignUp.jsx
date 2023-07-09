@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import '../../CSS/Users.css'
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { LOGIN } from '../../Redux/types/authTypes';
 
-
-export default function SignUp({ updateIsLog }) {
+export default function SignUp() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const isLogIn = useDispatch();
 
   const navigate = useNavigate();
 
@@ -66,7 +69,6 @@ export default function SignUp({ updateIsLog }) {
       setCheckInput({ ...checkInput, userName: true });
     }
   }
-
 
   async function handleEmail(event) {
     const patternEmail = /^[A-z0-9\.]+@[A-z0-9]+\.[A-z]{3,5}$/;
@@ -142,7 +144,6 @@ export default function SignUp({ updateIsLog }) {
 
       event.target.reset();
       navigate(path);
-      updateIsLog(true);
     }
     else {
       setMassageWarning({ ...massageWarning, submit: 'Please fill in all fields or verify that the input is correct.' });
@@ -154,8 +155,10 @@ export default function SignUp({ updateIsLog }) {
     axios.post('http://localhost:7777/auth/SignUp', user).then((res) => {
 
       localStorage.setItem("token", res.data.jwttoken);
-
       console.log(res)
+
+      isLogIn({ type: LOGIN });
+
     }).catch((err) => {
       console.log(err);
     })

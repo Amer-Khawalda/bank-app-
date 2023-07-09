@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Logo from './../../Images/logo.png'
+import { useSelector, useDispatch } from 'react-redux'
+import { LOG_OUT } from '../../Redux/types/authTypes';
 
-export default function Header({ isLog, updateIsLog }) {
+export default function Header() {
 
    const [nav, setNav] = useState(false);
-   const [isToken, setToken] = useState(false);
+
+   const isLogIn = useSelector(state => state.auth.isLogIn);
+   const logOut = useDispatch();
 
    function handleLogOut() {
       localStorage.removeItem('token');
-      updateIsLog(false)
+      logOut({ type: LOG_OUT })
    }
 
    return (
@@ -49,19 +53,18 @@ export default function Header({ isLog, updateIsLog }) {
                <nav className={`md:hidden fixed top-[0px] rounded-md  w-60 border-blue-600	border-2	 bg-gray-100 z-40 duration-700 ${nav ? "right-[53px] top-[53px]" : "right-[-100vw]"
                   } `}>
                   <ul class="flex flex-col items-center">
-                     <li className='mt-5'>
-                        <Link to="/" className='text-gray-500 font-bold transition hover:text-blue-600'>Home</Link>
-                     </li>
-                     <li>
+                     <li className='mt-8'>
                         <Link to="/" className='text-gray-500 font-bold transition hover:text-blue-600'>Book List</Link>
                      </li>
-                     <li>
-                        <Link to="/" className='text-gray-500 font-bold transition hover:text-blue-600'>Favorite books</Link>
-                     </li>
-                     <li className='mt-12'>
+                     {isLogIn &&
+                        <li className='mt-8'>
+                           <Link to="/profile" className='text-gray-500 font-bold transition hover:text-blue-600'>Profile</Link>
+                        </li>
+                     }
+                     <li className='mt-8'>
                         <Link to="/aboutUs" className='text-gray-500 font-bold transition hover:text-blue-600'>About Us</Link>
                      </li>
-                     <li className='mt-12'>
+                     <li className='my-8'>
                         <Link to="/contactUs" className='text-gray-500 font-bold transition  hover:text-blue-600'>Contact Us</Link>
                      </li>
                   </ul>
@@ -69,15 +72,14 @@ export default function Header({ isLog, updateIsLog }) {
 
                <nav aria-label="Site Nav" class="hidden md:block">
                   <ul class="flex items-center gap-6 text-sm ">
-                     <li className=''>
-                        <Link to="/" className='text-gray-500 font-bold transition hover:text-blue-600'>Home</Link>
-                     </li>
                      <li>
                         <Link to="/" className='text-gray-500 font-bold transition hover:text-blue-600'>Book List</Link>
                      </li>
-                     <li>
-                        <Link to="/" className='text-gray-500 font-bold transition hover:text-blue-600'>Favorite books</Link>
-                     </li>
+                     {isLogIn &&
+                        <li>
+                           <Link to="/profile" className='text-gray-500 font-bold transition hover:text-blue-600'>Profile</Link>
+                        </li>
+                     }
                      <li>
                         <Link to="/aboutUs" className='text-gray-500 font-bold transition hover:text-blue-600'>About Us</Link>
                      </li>
@@ -89,7 +91,7 @@ export default function Header({ isLog, updateIsLog }) {
             </div>
             <div class="flex items-center gap-4">
                <div class="sm:flex sm:gap-4">
-                  {isLog ? (
+                  {isLogIn ? (
                      <Link onClick={handleLogOut} to="/signIn" className='block rounded-md bg-blue-600 px-8 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700'>Log Out</Link>
 
 
